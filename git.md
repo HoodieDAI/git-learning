@@ -44,7 +44,7 @@
 
 ## git状态与区域的关系
 
-commit -> 版本库（已提交）
+commit 提交暂存区的文件 -> 版本库（已提交）
 
 add -> 暂存区（已暂存） 
 
@@ -70,4 +70,8 @@ add -> 暂存区（已暂存）
 
 ### git状态
 
-`git status`
+`git status` 
+
+### 日志
+
+`git log`
