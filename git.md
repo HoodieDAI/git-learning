@@ -290,5 +290,67 @@ rebase同样可以用作合并，这使合并后的分支树更为简洁
 
 所以，checkout也可以直接切换到某个快照（commit）上，具体用法如下：
 
-`git checkout 节点`
+`git checkout 节点HASH` （测试这里的时候吓死我了，我写的笔记全没了，恢复用 `git reset --hard`）
+
+利用分离的HEAD可以让我们很灵活的操作提交树
+
+### 强制移动分支
+
+`git branch -f 需要移动的分支 HEAD`| `git branch -f 需要移动的分支 HEAD的相对位置`
+
+
+
+### 自由修改提交树 `cherry-pick`
+
+可以选择某个或者多个分支上的一些快照，合并到一个分支
+
+![image-20210629221659188](/Users/codedai/Desktop/笔记/GIt/git.assets/image-20210629221659188.png)
+
+例如我们需要将 c2 和 c7 合并到 master 下
+
+使用 `git cherry-pick c2 c7` 
+
+![image-20210629221949822](/Users/codedai/Desktop/笔记/GIt/git.assets/image-20210629221949822.png)
+
+
+
+
+
+
+
+# 远程仓库操作
+
+## 代码克隆
+
+`git clone`
+
+## 更新仓库
+
+### `git fetch`
+
+注意和 pull 区分
+
+* fetch 会下载本地中缺失远程提交数据
+* fetch 会更新本地的远程指针（origin/master）
+
+但是：
+
+* fetch 不会修改你工作区的文件，也就是当前看到的文件不会发生变化
+* 本地的指针不会发生变化
+
+使用 git fetch 后更新工作区的方法
+
+由于fetch后文件其实都下载下来了，但是由于本地分支并不会发生变化，所以只用调整本地分支即可
+
+![image-20210629224653397](/Users/codedai/Desktop/笔记/GIt/git.assets/image-20210629224653397.png)
+
+- `git cherry-pick o/master`
+- `git rebase o/master`
+- `git merge o/master`
+
+![image-20210629224617608](/Users/codedai/Desktop/笔记/GIt/git.assets/image-20210629224617608.png)
+
+### `git pull`
+
+其实 `git pull` 就是来解决上面那么麻烦的操作的。。。
 
