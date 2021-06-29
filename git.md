@@ -134,6 +134,18 @@ hash通过 `git log` 查看
 
 `get reset '之前的版本号'`
 
+### 远程分支下的回退
+
+因为远程中reset无效，所以操作的逻辑就是先将当前commit的内容变为需要回退到的快照，然后再做一次提交
+
+这些功能被 `git revert`实现了
+
+#### 回退到上一个版本
+
+`git revert HEAD`
+
+注意：这里会新增一个commit而不是减少一个commit 原因如上
+
 
 
 ## 版本对比
@@ -205,3 +217,78 @@ index c864e0d..66e627d 100644
 ### 删除暂存区
 
 `git rm --cached 文件名`
+
+### 重命名
+
+`git mv 被重命名文件 目标文件`
+
+## 忽略文件
+
+在 `.gitignore`中添加文件即可（可以用通配符）
+
+## 分支操作
+
+### 创建分支
+
+`git branch 分支名`
+
+### 切换分支
+
+`git checkout 分支名`
+
+### 创建同时切换分支
+
+`git checkout -b 需要创建的分支`
+
+### 合并分支
+
+#### 使用merge合并
+
+首先要切换到需要合并到的分支
+
+`git merge 需要合并的分支`
+
+#### 使用rebase合并
+
+rebase是变基，在同一分支下rebase可以合并几条commit快照然后生成新的快照
+
+rebase同样可以用作合并，这使合并后的分支树更为简洁
+
+假如有两个分支 master 和 bugFix
+
+![image-20210629214946994](/Users/codedai/git.assets/image-20210629214946994.png)
+
+现在需要使用rebase将 c2和c3 合并到 c4下
+
+1.  首先切换到需要变基的分支（将bugFix的基迁到master下）
+2. `git rebase 目标base`（master）
+
+`git checkout bugFix; git rebase master;`
+
+![image-20210629215252977](/Users/codedai/git.assets/image-20210629215252977.png)
+
+这样提交树就变成一条了
+
+### 删除分支
+
+`git branch -d 分支名`
+
+### HEAD 操作
+
+之前的commit revert reset checkout rebase 等等一系列操作都是在HEAD的基础上进行操作的
+
+首先：切换分支就是将HEAD指向分支所在最终节点
+
+* 例如 git commit 其实是在HEAD所在节点进行一次提交
+* revert、reset也是基于head所在位置进行调整
+* rebase也是基于head所在位置进行变基，若rebase不属于任何有名字的分支，则将其head所在的一条线变基
+* checkout 就是切换HEAD所在位置
+
+#### 利用checkout分离HEAD
+
+综上所诉：HEAD一般来说就是在分支的最后一个节点上，checkout 相当于切换HEAD到某个分支末尾处
+
+所以，checkout也可以直接切换到某个快照（commit）上，具体用法如下：
+
+`git checkout 节点`
+
